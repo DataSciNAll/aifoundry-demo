@@ -14,13 +14,16 @@ from azure.identity import DefaultAzureCredential
 
 from dotenv import load_dotenv
 
+from pathlib import Path
+import json
+
 load_dotenv()
 
 project = AIProjectClient.from_connection_string(
     conn_str=os.environ["AIPROJECT_CONNECTION_STRING"], credential=DefaultAzureCredential()
 )
 
-connection = project.connections.get_default(connection_type=ConnectionType.AZURE_OPEN_AI, include_credentials=True)
+connection = project.connections.get_default(connection_type=ConnectionType.AZURE_OPEN_AI, with_credentials=True)
 
 evaluator_model = {
     "azure_endpoint": connection.endpoint_url,
@@ -59,8 +62,15 @@ async def custom_simulator_raw_conversation_starter():
         ],
         max_conversation_turns=3,
     )
+    
+    output_file = Path("simdata.json")
+    with output_file.open("a") as f:
+        json.dump(outputs,f)
+    
     groundedness = GroundednessEvaluator(model_config=evaluator_model)
     result = groundedness(conversation=outputs[0])
+    with output_file.open("a") as f:
+        json.dump(result,f )
     print(result)
 
 if __name__ == "__main__":
