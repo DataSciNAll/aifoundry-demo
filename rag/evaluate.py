@@ -5,7 +5,7 @@ import os
 import pandas as pd
 from azure.ai.projects import AIProjectClient
 from azure.ai.projects.models import ConnectionType
-from azure.ai.evaluation import evaluate, GroundednessEvaluator, RelevanceEvaluator
+from azure.ai.evaluation import evaluate, GroundednessEvaluator, RelevanceEvaluator, CoherenceEvaluator, FluencyEvaluator
 from azure.identity import DefaultAzureCredential
 
 from chat_with_products import chat_with_products

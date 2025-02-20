@@ -63,7 +63,7 @@ async def custom_simulator_raw_conversation_starter():
         max_conversation_turns=3,
     )
     
-    output_file = Path("simdata.json")
+    output_file = Path("mysimevalresults.json")
     with output_file.open("a") as f:
         json.dump(outputs,f)
     
